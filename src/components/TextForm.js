@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./TextForm.css";
 
 export default function TextForm(props) {
   const handleUpClick = () => {
@@ -57,7 +58,7 @@ export default function TextForm(props) {
             className="form-control"
             onChange={handleOnChange}
             style={{
-              backgroundColor: props.mode === "dark" ? "grey" : "white",
+              backgroundColor: props.mode === "dark" ? "#13466e" : "white",
               color: props.mode === "dark" ? "white" : "#042743",
             }}
             value={text}
@@ -65,16 +66,32 @@ export default function TextForm(props) {
             rows="8"
           ></textarea>
         </div>
-        <button className="btn btn-primary mx-1" onClick={handleUpClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleUpClick}
+        >
           Convert to Uppercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleDownClick}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleDownClick}
+        >
           Convert to Lowercase
         </button>
-        <button className="btn btn-primary mx-1" onClick={handleCap}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary mx-1 my-1"
+          onClick={handleCap}
+        >
           Capitalize the first letter
         </button>
-        <button className="btn btn-danger mx-1" onClick={handleClear}>
+        <button
+          disabled={text.length === 0}
+          className="btn btn-danger mx-1 my-1"
+          onClick={handleClear}
+        >
           Clear
         </button>
         {/* New input fields for find and replace */}
@@ -83,16 +100,33 @@ export default function TextForm(props) {
           value={findText}
           onChange={(e) => setFindText(e.target.value)}
           placeholder="Find"
-          className="form-control my-2"
+          style={{
+            backgroundColor: props.mode === "dark" ? "#13466e" : "white",
+            color: props.mode === "dark" ? "white" : "#042743",
+          }}
+          className={`form-control my-2 ${
+            props.mode === "dark" ? "input-dark" : "input-light"
+          }`}
         />
         <input
           type="text"
-          value={replaceText}
+          value={props.replaceText}
           onChange={(e) => setReplaceText(e.target.value)}
           placeholder="Replace with"
-          className="form-control my-2"
+          style={{
+            backgroundColor: props.mode === "dark" ? "#13466e" : "white",
+            color: props.mode === "dark" ? "white" : "#042743",
+          }}
+          className={`form-control my-2 ${
+            props.mode === "dark" ? "input-dark" : "input-light"
+          }`}
         />
-        <button className="btn btn-primary" onClick={handleFindAndReplace}>
+
+        <button
+          disabled={text.length === 0}
+          className="btn btn-primary"
+          onClick={handleFindAndReplace}
+        >
           Find and Replace
         </button>
       </div>
@@ -102,9 +136,20 @@ export default function TextForm(props) {
       >
         <h2>Your Text Summary</h2>
         <p>
-          {text.split(" ").length} words and {text.length} characters
+          {
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length
+          }{" "}
+          words and {text.length} characters
         </p>
-        <p>{0.008 * text.split(" ").length} minutes read</p>
+        <p>
+          {0.008 *
+            text.split(" ").filter((element) => {
+              return element.length !== 0;
+            }).length}{" "}
+          minutes read
+        </p>
         <h2>Preview</h2>
         <p>
           {text.length > 0
